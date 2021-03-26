@@ -1,0 +1,38 @@
+---
+- name: configure a webserver
+  hosts: all
+  become: true
+  tasks:
+   - name: install httpd
+     yum:
+      name: httpd
+      state: present
+
+   - name: start and enable httpd service
+     service:
+      name: httpd
+      state: started
+      enabled: true
+
+   - name: allow http in firewalld
+     firewalld:
+      service: http
+      state: enabled
+      permanent: true
+      immediate: true
+
+   - name: create an index.html file
+     copy:
+      content: "Mustafa DO447 Training."
+      dest: /var/www/html/index.html
+
+   - name: check webserver status
+     uri:
+      url: http://192.168.0.3:81
+      return_content: true
+     register: webserver_status
+     failed_when: webserver_status['status'] != 200
+
+   - name: display variable values
+     debug:
+      var: webserver_status.status #webserver_status['status']

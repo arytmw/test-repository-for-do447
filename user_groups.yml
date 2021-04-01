@@ -1,0 +1,15 @@
+---
+- name: add specific user in a secondary group
+  hosts: all
+  vars:
+   - user_name: 
+   - user_pass: 
+   - group_name:
+  tasks:
+   - name: create given user with password and group
+     user:
+      name: "{{ user_name }}"
+      password: "{{ user_pass | password_hash('sha512') }}"
+      groups: "{{ group_name }}"
+      append: true
+      state: present

@@ -1,0 +1,8 @@
+---
+- name: check ansible tower fact cache
+  hosts: all
+  gather_facts: false
+  tasks:
+   - name: check for a fact
+     debug:
+      msg: "{{ ansible_facts['distribution'] }}"

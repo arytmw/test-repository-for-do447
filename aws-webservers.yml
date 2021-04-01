@@ -1,0 +1,20 @@
+---
+- name: configure a webserver
+  hosts: all
+  become: true
+  tasks:
+   - name: install httpd
+     yum:
+      name: httpd
+      state: present
+
+   - name: start and enable httpd service
+     service:
+      name: httpd
+      state: started
+      enabled: true
+
+   - name: create an index.html file
+     copy:
+      content: "Mustafa DO447 Training."
+      dest: /var/www/html/index.html

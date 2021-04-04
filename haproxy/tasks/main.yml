@@ -1,0 +1,24 @@
+---
+# tasks file for haproxy
+- name: install haproxy
+  yum:
+   name: haproxy
+   state: present
+
+- name: ensure haproxy is up and running
+  service:
+   name: haproxy
+   state: started
+   enabled: true
+
+- name: deploy haproxy configuration file
+  copy:
+   src: haproxy.cfg
+   dest: /etc/haproxy/haproxy.cfg
+
+- name: allow haproxy port
+  firewalld:
+   port: 5000
+   permanent: true
+   immediate: true
+   state: enabled

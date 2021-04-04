@@ -15,10 +15,11 @@
   copy:
    src: haproxy.cfg
    dest: /etc/haproxy/haproxy.cfg
+  notify: restart haproxy
 
 - name: allow haproxy port
   firewalld:
-   port: 5000
+   port: 5000/tcp
    permanent: true
    immediate: true
    state: enabled
